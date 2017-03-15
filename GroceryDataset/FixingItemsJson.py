@@ -11,6 +11,14 @@ import os
 import codecs
 dir = os.path.dirname(__file__) #<-- absolute dir the script is in
 
+d=set()
+with open(os.path.join(dir, 'asins.json')) as asinsfile:
+    for asi in asinsfile:
+        asi2= json.loads(asi)
+        d.add(asi2['asin'])
+    print d
+
+
 # http://stackoverflow.com/questions/18514910/how-do-i-automatically-fix-an-invalid-json-string
 def fixed_json(s):
     s = s.replace("\n", "").replace('"', "'").replace("\t", " ")
@@ -60,7 +68,7 @@ def fixed_json(s):
                 ls[start + m.start() +1 ] = "'"
             """
     s = "".join(ls)
-    s = s.decode('string_escape').decode("ISO-8859-1").replace('Today"s',"Today's").replace('Baker"s', "Baker's").replace('\\', "-").replace("\t","")
+    s = s.decode('string_escape').decode("ISO-8859-1").replace('Children"s',"Children's").replace('Today"s',"Today's").replace('Baker"s', "Baker's").replace('\\', "-").replace("\t","")
     s = re.sub(r"\n", " ", s)
     #print s[986-20: 986+20]
     #print s
@@ -70,14 +78,16 @@ def fixed_json(s):
 
 iter = 0
 items = []
-with open(os.path.join(dir, '../inputs/grocery_metadata.json')) as itemsfile:
+with open(os.path.join(dir, 'meta_Digital_Music.json')) as itemsfile:
     
     for line in itemsfile:
         #print line
-        items.append(fixed_json(line))
-        iter = iter + 1
-        print iter
+        item=fixed_json(line)
+        if item['asin'] in d:
+            items.append(item)
+            iter = iter + 1
 
 
-with codecs.open(os.path.join(dir, '../outputs/items_fixed.json'), 'w', encoding="ISO-8859-1") as outfile:
+
+with codecs.open(os.path.join(dir, 'meta_Digital_Music_fixed.json'), 'w', encoding="ISO-8859-1") as outfile:
     json.dump(items, outfile,  ensure_ascii=False) #para asegurar las tildes

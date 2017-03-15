@@ -92,11 +92,12 @@ def create_order(review, ordered_items, all_items, credit_card, is_review_order=
             "credit_card": credit_card,
             "date": date,
             "delivered_date":delivered_date,
-            "total_price": calculate_total_price(ordered_items)
+            "total_price": calculate_total_price(ordered_items),
+            "address": fake.address().replace("\n"," ")
         }
 
 items = {} # {"asin": , "item":{cuerpo del item}}
-with open(os.path.join(dir, '../inputs/items.json')) as itemfiles:
+with open(os.path.join(dir, 'Digital_Music.json')) as itemfiles:
     itemsinfile = itemfiles.read()
     itemsinfile = json_util.loads(itemsinfile)
     for item in itemsinfile:
@@ -108,7 +109,7 @@ fake = Factory.create('en_US')
 
 orders = []
 iter = 0
-with open(os.path.join(dir, '../inputs/reviews.json')) as reviewsfile:
+with open(os.path.join(dir, 'reviews.json')) as reviewsfile:
     
     reviews = reviewsfile.read()
     reviews = json_util.loads(reviews)
@@ -168,7 +169,7 @@ with open(os.path.join(dir, '../inputs/reviews.json')) as reviewsfile:
             print "created orders: " + len(orders).__str__()
         
 print "Total orders created: " + len(orders).__str__()
-with codecs.open(os.path.join(dir, '../outputs/orders_completed.json'), 'w', encoding="ISO-8859-1") as outfile:
+with codecs.open(os.path.join(dir, 'orders_completed.json'), 'w', encoding="ISO-8859-1") as outfile:
     to_dump = json_util.dumps(orders)
     print "I have dumped to BSON successfully"
     outfile.write(to_dump)

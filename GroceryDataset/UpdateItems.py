@@ -20,7 +20,7 @@ def probability(percent):
 
 items = {}
 #save all reviews in memory, using asin-item dictionary (extract just ObjectID)
-with open(os.path.join(dir, '../inputs/reviews.json')) as reviewsfile:
+with open(os.path.join(dir, 'reviews.json')) as reviewsfile:
     reviews = reviewsfile.read()
     #print len(reviews)
     reviews = json_util.loads(reviews)
@@ -38,10 +38,10 @@ iter = 0
 without_reviews = 0
 without_prices = 0
 all_ids = {}
-with open(os.path.join(dir, '../inputs/items_fixed.json')) as itemsfile:
+with open(os.path.join(dir, 'meta_Digital_Music_fixed.json')) as itemsfile:
     items_loaded = json.load(itemsfile)
     for item in items_loaded:
-        
+
         if item['asin'] in items:
             item['_id'] = bson.objectid.ObjectId(items[item['asin']])
             #print type(item['_id'])
@@ -73,7 +73,7 @@ with open(os.path.join(dir, '../inputs/items_fixed.json')) as itemsfile:
 print "Items without reviews "+without_reviews.__str__()
 print "Items without prices "+without_prices.__str__()
 print "Total items "+items_modified.__len__().__str__()
-with codecs.open(os.path.join(dir, '../outputs/items.json'), 'w', encoding="ISO-8859-1") as outfile:
+with codecs.open(os.path.join(dir, 'Digital_Music.json'), 'w', encoding="ISO-8859-1") as outfile:
     to_dump = json_util.dumps(items_modified)
     print "I have dumped to BSON successfully"
     outfile.write(to_dump)

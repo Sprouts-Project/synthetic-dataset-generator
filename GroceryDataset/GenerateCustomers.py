@@ -19,7 +19,7 @@ dir = os.path.dirname(__file__) #<-- absolute dir the script is in
 reviewerIDs = {} #Reviewer IDs
 customers = [] #Generated customers
 iter = 0
-with open(os.path.join(dir, '../inputs/reviews.json')) as reviewsfile:
+with open(os.path.join(dir, 'reviews.json')) as reviewsfile:
     reviews = reviewsfile.read()
     
     reviews = json_util.loads(reviews)
@@ -55,7 +55,7 @@ with open(os.path.join(dir, '../inputs/reviews.json')) as reviewsfile:
         #anadir referencia a la review
 
 print 'Number of generated customers: ' + str(len(customers))
-with codecs.open(os.path.join(dir, '../outputs/customers.json'), 'w', encoding="ISO-8859-1") as outfile:
+with codecs.open(os.path.join(dir, 'customers.json'), 'w', encoding="ISO-8859-1") as outfile:
     to_dump = json_util.dumps(customers)
     print "I have dumped to BSON successfully"
     outfile.write(to_dump)
